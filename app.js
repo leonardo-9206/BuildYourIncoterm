@@ -9,6 +9,12 @@ const incotermsFixed = {
 let currentStage = 1;
 const maxStages = 3;
 
+// Variables de Puntaje
+let p1Wins = 0;
+let p2Wins = 0;
+let stageWinnerSelected = false;
+
+// Variables de Tiempo
 let p1Time = 0;
 let p2Time = 0;
 let p1Interval = null;
@@ -35,6 +41,12 @@ const roundStatus = document.getElementById('round-status');
 const btnNextStage = document.getElementById('btn-next-stage');
 const btnFinishGame = document.getElementById('btn-finish-game');
 
+// Elementos nuevos de Ganador
+const btnP1Winner = document.getElementById('btn-p1-winner');
+const btnP2Winner = document.getElementById('btn-p2-winner');
+const stageWinnerDisplay = document.getElementById('stage-winner-display');
+const scoreDisplay = document.getElementById('score-display');
+
 // Elementos Jugadores
 const p1TimeDisplay = document.getElementById('p1-time');
 const btnP1Stop = document.getElementById('btn-p1-stop');
@@ -54,23 +66,27 @@ btnStartGame.addEventListener('click', () => {
 
 function initStage(stage) {
     currentStageDisplay.textContent = stage;
-    
-    // Configurar imagen y texto de la etapa actual
+
+    // Configurar imagen y texto
     const currentData = incotermsFixed[stage];
     incotermLogoImg.src = currentData.img;
     activeIncotermDisplay.textContent = currentData.name;
-    
-    // Reset players
+
+    // Reset de variables de la ronda
+    stageWinnerSelected = false;
+    stageWinnerDisplay.classList.add('hidden');
+    btnP1Winner.classList.add('hidden');
+    btnP2Winner.classList.add('hidden');
+    scoreDisplay.textContent = `Score: ${p1Wins} - ${p2Wins}`; // Refresca el marcador
+
     resetPlayer(1);
     resetPlayer(2);
-    
-    // Show setup phase
+
     showPhase(setupPhase);
     btnNextStage.classList.add('hidden');
     btnFinishGame.classList.add('hidden');
-    roundStatus.textContent = 'Build the Incoterm!';
+    roundStatus.textContent = 'Build your Incoterm!';
 }
-
 
 btnStartRound.addEventListener('click', () => {
     showPhase(countdownPhase);
@@ -148,13 +164,44 @@ btnP2Stop.addEventListener('click', () => {
 
 function checkRoundStatus() {
     if (p1Finished && p2Finished) {
-        roundStatus.innerHTML = '<span class="text-success">¡Both players finished!</span>';
-        
-        if (currentStage < maxStages) {
-            btnNextStage.classList.remove('hidden');
-        } else {
-            btnFinishGame.classList.remove('hidden');
-        }
+        // Se detiene el tiempo. Pedir a Ilse que revise.
+        roundStatus.innerHTML = '<span class="text-success">Time stopped! Check Incoterms.</span>';
+
+        // Aparecen los botones para elegir al ganador
+        btnP1Winner.classList.remove('hidden');
+        btnP2Winner.classList.remove('hidden');
+    }
+}
+
+// Lógica para elegir ganador
+btnP1Winner.addEventListener('click', () => selectWinner(1));
+btnP2Winner.addEventListener('click', () => selectWinner(2));
+
+function selectWinner(player) {
+    if(stageWinnerSelected) return; // Evita que se sumen puntos dobles si le pica dos veces
+    stageWinnerSelected = true;
+
+    // Esconder los botones de selección
+    btnP1Winner.classList.add('hidden');
+    btnP2Winner.classList.add('hidden');
+
+    // Sumar punto y mostrar mensaje
+    if (player === 1) {
+        p1Wins++;
+        stageWinnerDisplay.textContent = `Stage ${currentStage} Winner: Player 1!`;
+    } else {
+        p2Wins++;
+        stageWinnerDisplay.textContent = `Stage ${currentStage} Winner: Player 2!`;
+    }
+
+    stageWinnerDisplay.classList.remove('hidden');
+    scoreDisplay.textContent = `Score: ${p1Wins} - ${p2Wins}`;
+
+    // Mostrar el botón para avanzar o terminar el juego
+    if (currentStage < maxStages) {
+        btnNextStage.classList.remove('hidden');
+    } else {
+        btnFinishGame.classList.remove('hidden');
     }
 }
 
@@ -164,9 +211,23 @@ btnNextStage.addEventListener('click', () => {
 });
 
 btnFinishGame.addEventListener('click', () => {
-    alert('GAME OVER. Thank you for playing!');
-    // Reset to start screen
+    let finalMessage = '';
+
+    if (p1Wins > p2Wins) {
+        finalMessage = 'PLAYER 1 IS THE WINNER! 🏆';
+    } else if (p2Wins > p1Wins) {
+        finalMessage = 'PLAYER 2 IS THE WINNER! 🏆';
+    } else {
+        finalMessage = 'ITS A TIE! 🤝';
+    }
+
+    // Mostrar alerta final
+    alert(`GAME OVER!\n\nFinal Score: P1 [ ${p1Wins} ] - P2 [ ${p2Wins} ]\n\n${finalMessage}`);
+
+    // Resetear juego completo
     currentStage = 1;
+    p1Wins = 0;
+    p2Wins = 0;
     startScreen.classList.add('active');
     gameScreen.classList.remove('active');
 });
