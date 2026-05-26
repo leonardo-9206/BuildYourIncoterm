@@ -68,7 +68,7 @@ function initStage(stage) {
     showPhase(setupPhase);
     btnNextStage.classList.add('hidden');
     btnFinishGame.classList.add('hidden');
-    roundStatus.textContent = '¡Armen el Incoterm!';
+    roundStatus.textContent = 'Build the Incoterm!';
 }
 
 
@@ -148,7 +148,7 @@ btnP2Stop.addEventListener('click', () => {
 
 function checkRoundStatus() {
     if (p1Finished && p2Finished) {
-        roundStatus.innerHTML = '<span class="text-success">¡Ambos jugadores terminaron!</span>';
+        roundStatus.innerHTML = '<span class="text-success">¡Both players finished!</span>';
         
         if (currentStage < maxStages) {
             btnNextStage.classList.remove('hidden');
@@ -164,7 +164,7 @@ btnNextStage.addEventListener('click', () => {
 });
 
 btnFinishGame.addEventListener('click', () => {
-    alert('¡JUEGO TERMINADO! Felicidades por completar Build Your Incoterm.');
+    alert('GAME OVER. Thank you for playing!');
     // Reset to start screen
     currentStage = 1;
     startScreen.classList.add('active');

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Build Your Incoterm</title>
-    <meta name="description" content="Juego interactivo para construir Incoterms">
+    <meta name="description" content="Interactive game to build Incoterms">
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -26,7 +26,7 @@
         
         
 <div id="start-screen" class="screen active">
-            <button id="btn-start-game" class="btn-primary pulse start-btn-custom">INICIAR JUEGO</button>
+            <button id="btn-start-game" class="btn-primary pulse start-btn-custom">START GAME</button>
         </div>
 
         <!-- GAME SCREEN -->
@@ -34,7 +34,7 @@
             <header class="game-header glass-panel">
                 <h2 class="game-title">Build Your Incoterm</h2>
                 <div class="stage-indicator">
-                    <span class="stage-label">Etapa</span>
+                    <span class="stage-label">Stage</span>
                     <span id="current-stage-display" class="stage-number">1</span>
                 </div>
             </header>
@@ -42,19 +42,19 @@
             <div class="game-layout">
                 <!-- PLAYER 1 -->
                 <div class="player-panel glass-panel" id="player-1-panel">
-                    <h3 class="player-name">Jugador 1</h3>
+                    <h3 class="player-name">Player 1</h3>
                     <div class="timer-display">
                         <span id="p1-time" class="time-text">00:00.00</span>
                     </div>
-                    <button id="btn-p1-stop" class="btn-danger" disabled>¡Terminé!</button>
+                    <button id="btn-p1-stop" class="btn-danger" disabled>Finished!</button>
                 </div>
 
                 <!-- CENTRAL CONTROL -->
                 <div class="center-panel glass-panel">
                 <div id="setup-phase" class="phase active">
-                <h3 class="setup-title">Incoterm a armar:</h3>
+                <h3 class="setup-title">Incoterm:</h3>
                 <img id="incoterm-logo-img" src="" alt="Logo Incoterm" class="incoterm-logo">
-                <button id="btn-start-round" class="btn-primary">Iniciar Etapa</button>
+                <button id="btn-start-round" class="btn-primary">Start Stage</button>
                 </div>
 
                     <div id="countdown-phase" class="phase">
@@ -63,23 +63,23 @@
 
                     <div id="action-phase" class="phase">
                         <div class="action-info">
-                            <span class="action-label">Armando:</span>
+                            <span class="action-label">Building:</span>
                             <span id="active-incoterm-display" class="active-incoterm">FOB</span>
                         </div>
-                        <div id="round-status" class="round-status-text">¡Armen el Incoterm!</div>
-                        <button id="btn-next-stage" class="btn-secondary hidden">Siguiente Etapa</button>
-                        <button id="btn-finish-game" class="btn-success hidden">Finalizar Juego</button>
+                        <div id="round-status" class="round-status-text">Build the Incoterm!</div>
+                        <button id="btn-next-stage" class="btn-secondary hidden">Next Stage</button>
+                        <button id="btn-finish-game" class="btn-success hidden">End game</button>
                     </div>
 
                 </div>
 
                 <!-- PLAYER 2 -->
                 <div class="player-panel glass-panel" id="player-2-panel">
-                    <h3 class="player-name">Jugador 2</h3>
+                    <h3 class="player-name">Player 2</h3>
                     <div class="timer-display">
                         <span id="p2-time" class="time-text">00:00.00</span>
                     </div>
-                    <button id="btn-p2-stop" class="btn-danger" disabled>¡Terminé!</button>
+                    <button id="btn-p2-stop" class="btn-danger" disabled>Finished!</button>
                 </div>
             </div>
         </div>
