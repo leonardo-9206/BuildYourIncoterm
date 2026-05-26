@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Build Your Incoterm</title>
+    <meta name="description" content="Juego interactivo para construir Incoterms">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Titan+One&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="background-animation">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <div class="app-container">
+        
+        
+<div id="start-screen" class="screen active">
+            <button id="btn-start-game" class="btn-primary pulse start-btn-custom">INICIAR JUEGO</button>
+        </div>
+
+        <!-- GAME SCREEN -->
+        <div id="game-screen" class="screen">
+            <header class="game-header glass-panel">
+                <h2 class="game-title">Build Your Incoterm</h2>
+                <div class="stage-indicator">
+                    <span class="stage-label">Etapa</span>
+                    <span id="current-stage-display" class="stage-number">1</span>
+                </div>
+            </header>
+
+            <div class="game-layout">
+                <!-- PLAYER 1 -->
+                <div class="player-panel glass-panel" id="player-1-panel">
+                    <h3 class="player-name">Jugador 1</h3>
+                    <div class="timer-display">
+                        <span id="p1-time" class="time-text">00:00.00</span>
+                    </div>
+                    <button id="btn-p1-stop" class="btn-danger" disabled>¡Terminé!</button>
+                </div>
+
+                <!-- CENTRAL CONTROL -->
+                <div class="center-panel glass-panel">
+                <div id="setup-phase" class="phase active">
+                <h3 class="setup-title">Incoterm a armar:</h3>
+                <img id="incoterm-logo-img" src="" alt="Logo Incoterm" class="incoterm-logo">
+                <button id="btn-start-round" class="btn-primary">Iniciar Etapa</button>
+                </div>
+
+                    <div id="countdown-phase" class="phase">
+                        <div id="countdown-display" class="countdown-text">3</div>
+                    </div>
+
+                    <div id="action-phase" class="phase">
+                        <div class="action-info">
+                            <span class="action-label">Armando:</span>
+                            <span id="active-incoterm-display" class="active-incoterm">FOB</span>
+                        </div>
+                        <div id="round-status" class="round-status-text">¡Armen el Incoterm!</div>
+                        <button id="btn-next-stage" class="btn-secondary hidden">Siguiente Etapa</button>
+                        <button id="btn-finish-game" class="btn-success hidden">Finalizar Juego</button>
+                    </div>
+
+                </div>
+
+                <!-- PLAYER 2 -->
+                <div class="player-panel glass-panel" id="player-2-panel">
+                    <h3 class="player-name">Jugador 2</h3>
+                    <div class="timer-display">
+                        <span id="p2-time" class="time-text">00:00.00</span>
+                    </div>
+                    <button id="btn-p2-stop" class="btn-danger" disabled>¡Terminé!</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Scripts -->
+    <script src="app.js"></script>
+</body>
+</html>

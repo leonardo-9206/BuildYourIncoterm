@@ -1,0 +1,540 @@
+:root {
+    --primary-color: #f26522; /* Naranja de las letras INCOTERM */
+    --secondary-color: #f7b529; /* Amarillo de BUILD */
+    --accent-color: #1d7b42; /* Verde del pasto/Lego */
+    --success-color: #1d7b42; 
+    --danger-color: #e23838; /* Rojo del Lego/Contenedor */
+    --text-main: #ffffff;
+    --text-muted: #b0bec5;
+    --bg-dark: #f5ebd9; /* Un tono cremita del fondo de la imagen para el resto del juego */
+    
+    --glass-bg: rgba(0, 0, 0, 0.4); /* Oscurecemos un poco el glassmorphism para que resalte en fondos claros */
+    --glass-border: rgba(255, 255, 255, 0.2);
+    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Titan One', sans-serif;
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    overflow: hidden;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.background-animation {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    overflow: hidden;
+    
+    /* Un crema mucho más cálido y vivo */
+    background-color: #eedbc5; 
+    
+    background-image: 
+        linear-gradient(45deg, #f3e6d3 25%, transparent 25%, transparent 75%, #f3e6d3 75%, #f3e6d3),
+        linear-gradient(45deg, #f3e6d3 25%, transparent 25%, transparent 75%, #f3e6d3 75%, #f3e6d3);
+    background-size: 120px 120px;
+    background-position: 0 0, 60px 60px;
+    
+    opacity: 0.9; 
+}
+
+/* Apagamos las burbujas para matar cualquier degradado */
+.blob {
+    display: none !important;
+}
+
+.blob {
+    position: absolute;
+    filter: blur(80px);
+    border-radius: 50%;
+    opacity: 0.6;
+    animation: float 20s infinite ease-in-out alternate;
+}
+
+.blob-1 {
+    width: 40vw;
+    height: 40vw;
+    background: #7dd3fc; /* Azul cielo suave */
+    top: -10%;
+    left: -10%;
+    animation-delay: 0s;
+}
+
+.blob-2 {
+    width: 35vw;
+    height: 35vw;
+    background: #86efac; /* Verde menta/pasto claro */
+    bottom: -10%;
+    right: -10%;
+    animation-delay: -5s;
+}
+
+.blob-3 {
+    width: 30vw;
+    height: 30vw;
+    background: #fde047; /* Amarillo pastel soleado */
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation-delay: -10s;
+}
+
+@keyframes float {
+    0% { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(10%, 10%) scale(1.1); }
+}
+
+.glass-panel {
+    background: rgba(255, 255, 255, 0.15); /* Le bajamos la opacidad para hacerlo casi transparente */
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 3px solid rgba(255, 255, 255, 0.9); /* El borde blanco se queda */
+    border-radius: 24px;
+    box-shadow: 0 12px 32px 0 rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+}
+
+/* Títulos principales: amigables, negros, con borde blanco y bien derechos */
+.game-title, .setup-title, .player-name {
+    font-family: 'Titan One', sans-serif !important;
+    color: #000000 !important;
+    -webkit-text-stroke: 0px transparent !important; 
+    text-shadow: 
+        3px 3px 0 #ffffff, 
+        -3px -3px 0 #ffffff, 
+        3px -3px 0 #ffffff, 
+        -3px 3px 0 #ffffff,
+        0px 3px 0 #ffffff,
+        0px -3px 0 #ffffff,
+        3px 0px 0 #ffffff,
+        -3px 0px 0 #ffffff,
+        4px 6px 0px rgba(0,0,0,0.15) !important;
+    letter-spacing: 2px !important;
+    transform: none !important; /* Aquí anulamos la inclinación */
+}
+
+/* Dejamos las etiquetas secundarias en el tono oscuro original para que no compitan */
+.action-label, .round-status-text {
+    color: #4a3623; 
+}
+
+/* Container & Screens */
+.app-container {
+    width: 100%;
+    max-width: 1200px;
+    height: 90vh;
+    padding: 1rem;
+    position: relative;
+}
+
+.screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease, visibility 0.5s;
+}
+
+.screen.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+#start-screen {
+    position: fixed; 
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-image: url('Logo_inicio.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    flex-direction: column; /* Mantenemos el modo columna de tu diseño original */
+    align-items: center; /* Esto lo centra horizontalmente */
+    justify-content: flex-end; /* Esto lo empuja hacia abajo */
+    padding-bottom: 12vh; /* Ajusta este valor si necesitas subirlo o bajarlo más */
+    z-index: 999;
+    margin: 0;
+}
+
+.start-btn-custom {
+    font-size: 1.8rem;
+    font-weight: 800;
+    padding: 1.2rem 3rem;
+    border-radius: 12px;
+    border: 4px solid #ffffff; 
+    background: var(--accent-color) !important; /* El !important anula el degradado naranja */
+    color: white;
+    box-shadow: 0 8px 0 #124c29, 0 15px 20px rgba(0,0,0,0.4) !important;
+    text-shadow: 2px 2px 0px rgba(0,0,0,0.3);
+    transition: all 0.1s ease;
+    z-index: 1000;
+}
+
+.start-btn-custom:hover:not(:disabled) {
+    transform: translateY(4px);
+    box-shadow: 0 4px 0 #124c29, 0 10px 15px rgba(0,0,0,0.4) !important;
+}
+
+.main-menu {
+    text-align: center;
+    max-width: 600px;
+    width: 100%;
+    padding: 4rem 2rem;
+}
+
+.main-title {
+    font-size: 4rem;
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+    letter-spacing: 2px;
+}
+
+.main-title .highlight {
+    background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.subtitle {
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    margin-bottom: 3rem;
+}
+
+/* Buttons */
+button {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 600;
+    padding: 1rem 2.5rem;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Estado cuando el botón ya se presionó (hundido y deshabilitado) */
+button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: translateY(6px) !important; /* Se queda sumido */
+    box-shadow: none !important;
+}
+
+/* Botón Azul para iniciar la etapa */
+.btn-primary {
+    background: #38bdf8;
+    color: white;
+    border: 3px solid #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 6px 0 #0284c7, 0 10px 15px rgba(0,0,0,0.2);
+}
+
+.btn-primary:hover:not(:disabled) {
+    transform: translateY(3px);
+    box-shadow: 0 3px 0 #0284c7, 0 6px 10px rgba(0,0,0,0.2);
+}
+
+/* Botón Rojo para detener el tiempo */
+.btn-danger {
+    background: #e23838;
+    color: white;
+    border: 3px solid #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 6px 0 #9b1c1c, 0 10px 15px rgba(0,0,0,0.2);
+    width: 100%;
+    margin-top: 1.5rem;
+}
+
+.btn-danger:hover:not(:disabled) {
+    transform: translateY(3px);
+    box-shadow: 0 3px 0 #9b1c1c, 0 6px 10px rgba(0,0,0,0.2);
+}
+
+/* Botón "Siguiente Etapa" en amarillo */
+.btn-secondary {
+    background: #fde047;
+    color: #4a3623; /* Texto oscuro para que resalte en el amarillo */
+    border: 3px solid #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 6px 0 #ca8a04, 0 10px 15px rgba(0,0,0,0.2);
+    font-weight: 800;
+}
+
+.btn-secondary:hover:not(:disabled) {
+    transform: translateY(3px);
+    box-shadow: 0 3px 0 #ca8a04, 0 6px 10px rgba(0,0,0,0.2);
+}
+
+/* Botón "Finalizar Juego" en verde */
+.btn-success {
+    background: var(--accent-color);
+    color: white;
+    border: 3px solid #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 6px 0 #124c29, 0 10px 15px rgba(0,0,0,0.2);
+    font-weight: 800;
+}
+
+.btn-success:hover:not(:disabled) {
+    transform: translateY(3px);
+    box-shadow: 0 3px 0 #124c29, 0 6px 10px rgba(0,0,0,0.2);
+}
+
+.pulse {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(29, 123, 66, 0.7); }
+    70% { transform: scale(1.05); box-shadow: 0 0 0 15px rgba(29, 123, 66, 0); }
+    100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(29, 123, 66, 0); }
+}
+
+/* Game Header */
+.game-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    margin-bottom: 2rem;
+    border-radius: 16px;
+}
+
+.game-title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--primary-color);
+}
+
+.stage-indicator {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.stage-label {
+    text-transform: uppercase;
+    font-size: 1.2rem; /* Lo hacemos un poquito más grande para que luzca el borde */
+    letter-spacing: 1px;
+    color: #000000;
+    -webkit-text-stroke: 1px #ffffff;
+    font-weight: 800;
+}
+
+.stage-number {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #22c55e; /* Verde tipo pasto de la imagen */
+    background: #fdf6ec; /* Color cremita claro */
+    width: 45px;
+    height: 45px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    border: 3px solid #ffffff; /* Borde blanco para que parezca ficha */
+    box-shadow: 0 4px 0 #d1c5b4; /* Sombrita 3D sutil */
+}
+
+/* Game Layout */
+.game-layout {
+    display: flex;
+    gap: 2rem;
+    flex: 1;
+}
+
+.player-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.player-panel.finished {
+    background: rgba(134, 239, 172, 0.6); /* Verde menta claro */
+    border-color: #22c55e; /* Borde verde fuerte */
+    box-shadow: 0 0 20px rgba(34, 197, 94, 0.4);
+}
+
+.player-name {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.timer-display {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 1rem 2rem;
+    border-radius: 16px;
+    border: 4px solid #f3e6d3; /* Borde cremita */
+    margin-bottom: 1rem;
+    width: 100%;
+    text-align: center;
+    box-shadow: inset 0 4px 8px rgba(0,0,0,0.05); /* Sombra interna para que parezca hundido */
+}
+
+.time-text {
+    font-family: 'Space Mono', monospace; 
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: #38bdf8; /* El mismo azul del botón primario */
+    text-shadow: 2px 2px 0px rgba(0,0,0,0.1);
+    font-variant-numeric: tabular-nums; 
+    display: inline-block;
+    min-width: 250px; 
+}
+
+/* Center Panel */
+.center-panel {
+    flex: 1.2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.phase {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.phase.active {
+    display: flex;
+    animation: fadeIn 0.5s ease forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Setup Phase */
+.select-label {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    color: var(--text-muted);
+}
+
+.setup-title {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    color: var(--text-main);
+    text-shadow: 2px 2px 0px rgba(0,0,0,0.5);
+    letter-spacing: 2px;
+}
+
+.incoterm-logo {
+    width: 100%;
+    max-width: 280px;
+    margin-bottom: 2rem;
+    filter: drop-shadow(0px 10px 15px rgba(0,0,0,0.4));
+    animation: floatLogo 3s ease-in-out infinite;
+}
+
+@keyframes floatLogo {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+}
+
+.custom-select {
+    width: 100%;
+    max-width: 300px;
+    padding: 1rem;
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.2rem;
+    background: rgba(0,0,0,0.5);
+    color: white;
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    margin-bottom: 2rem;
+    outline: none;
+    cursor: pointer;
+    appearance: none;
+}
+
+.custom-select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 10px rgba(0, 210, 255, 0.3);
+}
+
+/* Countdown Phase */
+.countdown-text {
+    font-size: 8rem;
+    font-weight: 800;
+    /* Degradado de amarillo a naranja */
+    background: linear-gradient(to bottom, #fde047, #f26522);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0px 8px 10px rgba(0,0,0,0.2));
+    animation: pop 1s infinite;
+}
+
+@keyframes pop {
+    0% { transform: scale(0.8); opacity: 0; }
+    50% { transform: scale(1.2); opacity: 1; }
+    100% { transform: scale(1); opacity: 0; }
+}
+
+/* Action Phase */
+.action-info {
+    margin-bottom: 2rem;
+}
+
+.action-label {
+    display: block;
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+}
+
+.active-incoterm {
+    font-size: 4rem;
+    font-weight: 800;
+    color: var(--success-color);
+    text-shadow: 0 0 20px rgba(0, 230, 118, 0.4);
+}
+
+.round-status-text {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Utilities */
+.text-success { color: var(--success-color) !important; }
+.text-primary { color: var(--primary-color) !important; }
